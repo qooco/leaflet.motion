@@ -92,9 +92,15 @@ L.Motion.Utils = {
 		var interpolatedPoint = this.interpolateOnLatLngSegment(pointA, pointB, segmentRatio);
 		var traveledPath = latLngs.slice(0, i);
 		traveledPath.push(interpolatedPoint);
+
+		// Adjust total traveled distance with segment ratio
+		var totalTraveledDistance = cumulativeDistanceToA + segmentRatio * pointA.distanceToNextPoint;
+
 		return {
 			traveledPath: traveledPath,
-			latLng: interpolatedPoint
+			latLng: interpolatedPoint,
+			totalTraveledDistance,
+			fullLength
 		};
 	},
 
