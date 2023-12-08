@@ -137,6 +137,10 @@ L.Motion.Animate = {
 			}, this);
 		} else {
 			this.motionStop(true);
+
+			if (this.options.onComplete) {
+				this.options.onComplete();
+			}
 		}
     },
 
