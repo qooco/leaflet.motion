@@ -120,17 +120,17 @@ L.Motion.Animate = {
 			durationRatio = ellapsedTime / this.motionOptions.duration;
 		}
 
-		if (durationRatio < 1) {
-			durationRatio = this.motionOptions.easing(durationRatio, ellapsedTime, 0, 1, this.motionOptions.duration);
-			var interpolatedLine = L.Motion.Utils.interpolateOnLine(this._map, this._linePoints, durationRatio);
+		durationRatio = this.motionOptions.easing(durationRatio, ellapsedTime, 0, 1, this.motionOptions.duration);
+		var interpolatedLine = L.Motion.Utils.interpolateOnLine(this._map, this._linePoints, durationRatio);
 
-			this.setLatLngs(interpolatedLine.traveledPath);
-			this._drawMarker(interpolatedLine.latLng);
+		this.setLatLngs(interpolatedLine.traveledPath);
+		this._drawMarker(interpolatedLine.latLng);
 
-			if (this.options.onTick) {
-				this.options.onTick(interpolatedLine);
-			}
+		if (this.options.onTick) {
+			this.options.onTick(interpolatedLine);
+		}
 
+		if (durationRatio <= 1) {
 			this.__ellapsedTime = ellapsedTime;
 			this.animation = L.Util.requestAnimFrame(function(){
 				this._motion(startTime);

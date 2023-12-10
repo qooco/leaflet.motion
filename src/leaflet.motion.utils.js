@@ -49,6 +49,12 @@ L.Motion.Utils = {
 		// ensure the ratio is between 0 and 1;
 		ratio = Math.max(Math.min(ratio, 1), 0);
 
+		// get full line length between points
+		var fullLength = 0;
+		for (var dIndex = 0; dIndex < latLngs.length - 1; dIndex++) {
+			fullLength += latLngs[dIndex].distanceToNextPoint;
+		}
+
 		if (ratio === 0) {
 			var singlePoint = latLngs[0] instanceof L.LatLng ? latLngs[0] : L.latLng(latLngs[0]);
 			return {
@@ -57,17 +63,14 @@ L.Motion.Utils = {
 			};
 		}
 
-		if (ratio == 1) {
+		if (ratio >= 1) {
 			return {
 				traveledPath: latLngs,
-				latLng: latLngs[latLngs.length -1] instanceof L.LatLng ? latLngs[latLngs.length -1] : L.latLng(latLngs[latLngs.length -1])
+				latLng: latLngs[latLngs.length -1] instanceof L.LatLng ? latLngs[latLngs.length -1] : L.latLng(latLngs[latLngs.length -1]),
+				totalTraveledDistance: fullLength,
+				fullLength,
+				last: true
 			};
-		}
-
-		// get full line length between points
-		var fullLength = 0;
-		for (var dIndex = 0; dIndex < latLngs.length - 1; dIndex++) {
-			fullLength += latLngs[dIndex].distanceToNextPoint;
 		}
 
 		// Calculate expected ratio
